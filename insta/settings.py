@@ -20,7 +20,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-mm8(r)o&z-=_bd-+z!#!@7bzyay1dn1=*ve=sz@h3o#7eo&xtd'
+SECRET_KEY = 'django-insecure-4!70cok66i2zz(b+9-#i6xcu&=(rq*1yd64b@4jwk6anifgjwn'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -123,3 +123,9 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# 업로드한 사진을 저장할 위치 (실제 폴더 경로)
+MEDIA_ROOT = BASE_DIR / 'media'
+
+# 미디어 경로를 처리할 URL
+MEDIA_URL = '/media/'
