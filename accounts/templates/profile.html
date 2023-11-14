@@ -3,18 +3,32 @@
 {% block body %}
     <div class="row mt-3">
         <div class="col-4">
+            {% if user_info.profile_image %}
             <img src="{{ user_info.profile_image.url }}" alt="" class="rounded-circle img-fluid">
+            {% else %}
+            <img src="/media/profile/default.jpeg" alt="" class="rounded-circle img-fluid">
+            {% endif %}
         </div>
         <div class="col-8">
             <div class="row">
-                {{user_info}}
-                <a href="" class="btn btn-light">메세지 보내기</a>
+                <div class="col-3">
+                    {{user_info}}
+                </div>
+                {% if user != user_info %}
+                <div class="col-4">
+                    {% if user in user_info.followers.all %}
+                    <a href="{% url 'accounts:follows' username=user_info %}" class="btn btn-primary">팔로잉</a>
+                    {% else %}
+                    <a href="{% url 'accounts:follows' username=user_info %}" class="btn btn-secondary">팔로우</a>
+                    {% endif %}
+                </div>
+                {% endif %}
             </div>
 
             <div class="row">
                 <div class="col">게시물{{user_info.post_set.all|length}}개</div> 
-                <div class="col">팔로워</div>
-                <div class="col">팔로우</div>
+                <div class="col">팔로워{{user_info.followers.all|length}}</div>
+                <div class="col">팔로우{{user_info.followings.all|length}}</div>
             </div>
         </div>
     </div>

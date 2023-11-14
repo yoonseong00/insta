@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% load bootstrap5 %}
+{% block body %}
+<div class="card mb-3">
+    <div class="row g-0">
+        <div class="col-md-4">
+            <img src="{{ post.image.url }}" class="img-fluid rounded-start" alt="">
+        </div>
+        <div class="col-md-8">
+        <div class="card-body">
+            <h5 class="card-title">
+                {% if post.user.profile_image %}
+                    <img src="{{ post.user.profile_image.url }}" alt="" class="rounded-circle" width="30px">
+                {% else %}
+                    <img src="/media/profile/default.jpeg" alt="" class="rounded-circle" width="30px">
+                {% endif %}
+                    <a href="{% url 'accounts:profile' username=post.user %}">{{post.user}}</a>
+            </h5>
+            <p class="card-text">{{ post.content }}</p>
+            <p class="card-text"><small class="text-body-secondary"></small></p>
+            <a href="{% url 'posts:likes' id=post.id %}" class="text-reset text-decoration-none">
+                {% if user in post.like_users.all %}
+                    <i class="bi bi-heart-fill" style="color: crimson;"></i>
+                {% else %}
+                    <i class="bi bi-heart"></i>
+                {% endif%}
+            </a> {{ post.like_users.all|length }}명이 종아합니다.
+            <hr>
+            <form action="{% url 'posts:comment_create' post_id=post.id %}" method="POST">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col-10">
+                        {% bootstrap_form form show_label=False %}
+                    </div>
+                    <div class="col-2">
+                        <input type="submit" class="btn btn-primary">
+                    </div>
+                </div>
+            </form>
+            <hr>
+            {% for comment in post.comment_set.all %}
+            <div class="alert alert-light">
+                <p>{{comment.user}} : {{comment.content}}</p>
+                {% if user == comment.user %}
+                <a href="{% url 'posts:comment_delete' post_id=post.id  comment_id=comment.id %}" class="btn btn-danger btn-sm">Delete</a>
+                <hr>
+                {% endif %}
+            </div>
+            {% endfor %}
+
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
